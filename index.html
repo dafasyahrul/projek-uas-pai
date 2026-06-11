@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pembelajaran PAI Terpadu</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR OVERLAY (mobile) ═══ -->
+<div class="sb-overlay" id="sbo" onclick="sbClose()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside id="sb">
+  <div class="sb-brand">
+    <div class="sb-logo">ﷺ</div>
+    <div class="sb-name">PAI Terpadu<small>Pendidikan Agama Islam</small></div>
+  </div>
+
+  <div class="sb-sec">Utama</div>
+  <button class="mi on" data-pg="home" onclick="nav(this)">
+    <span class="ico">🏠</span>Beranda<span class="dot"></span>
+  </button>
+
+  <div class="sb-sec">Al-Qur'an &amp; Tajwid</div>
+  <button class="mi" data-pg="quran-pengertian" onclick="nav(this)"><span class="ico">📖</span>Pengertian Al-Qur'an<span class="dot"></span></button>
+  <button class="mi" data-pg="quran-tajwid" onclick="nav(this)"><span class="ico">🔤</span>Ilmu Tajwid<span class="dot"></span></button>
+  <button class="mi" data-pg="quran-juz30" onclick="nav(this)"><span class="ico">📜</span>Hafalan Juz 30<span class="dot"></span></button>
+  <button class="mi" data-pg="quran-kuis" onclick="nav(this)"><span class="ico">🧪</span>Kuis Al-Qur'an<span class="dot"></span></button>
+
+  <div class="sb-sec">Aqidah Islam</div>
+  <button class="mi" data-pg="aqidah-rukun" onclick="nav(this)"><span class="ico">🌟</span>Rukun Iman<span class="dot"></span></button>
+  <button class="mi" data-pg="aqidah-tauhid" onclick="nav(this)"><span class="ico">☝️</span>Ilmu Tauhid<span class="dot"></span></button>
+  <button class="mi" data-pg="aqidah-asmaul" onclick="nav(this)"><span class="ico">📿</span>Asmaul Husna<span class="dot"></span></button>
+  <button class="mi" data-pg="aqidah-kuis" onclick="nav(this)"><span class="ico">🧪</span>Kuis Aqidah<span class="dot"></span></button>
+
+  <div class="sb-sec">Fiqih Ibadah</div>
+  <button class="mi" data-pg="fiqih-thaharah" onclick="nav(this)"><span class="ico">💧</span>Thaharah<span class="dot"></span></button>
+  <button class="mi" data-pg="fiqih-shalat" onclick="nav(this)"><span class="ico">🙏</span>Shalat<span class="dot"></span></button>
+  <button class="mi" data-pg="fiqih-zakat" onclick="nav(this)"><span class="ico">💰</span>Zakat &amp; Puasa<span class="dot"></span></button>
+  <button class="mi" data-pg="fiqih-kuis" onclick="nav(this)"><span class="ico">🧪</span>Kuis Fiqih<span class="dot"></span></button>
+
+  <div class="sb-sec">Akhlak &amp; Hadist</div>
+  <button class="mi" data-pg="akhlak-pengertian" onclick="nav(this)"><span class="ico">🌹</span>Akhlak Mulia<span class="dot"></span></button>
+  <button class="mi" data-pg="akhlak-hadist" onclick="nav(this)"><span class="ico">📜</span>Hadist Pilihan<span class="dot"></span></button>
+  <button class="mi" data-pg="akhlak-kuis" onclick="nav(this)"><span class="ico">🧪</span>Kuis Akhlak<span class="dot"></span></button>
+
+  <div class="sb-sec">Sejarah Islam</div>
+  <button class="mi" data-pg="ski-nabi" onclick="nav(this)"><span class="ico">🕌</span>Sejarah Nabi Muhammad ﷺ<span class="dot"></span></button>
+  <button class="mi" data-pg="ski-sahabat" onclick="nav(this)"><span class="ico">⚔️</span>Khulafaur Rasyidin<span class="dot"></span></button>
+  <button class="mi" data-pg="ski-nusantara" onclick="nav(this)"><span class="ico">🌴</span>Islam di Nusantara<span class="dot"></span></button>
+  <button class="mi" data-pg="ski-kuis" onclick="nav(this)"><span class="ico">🧪</span>Kuis SKI<span class="dot"></span></button>
+
+  <div class="sb-sec">Amalan &amp; Info</div>
+  <button class="mi" data-pg="doa" onclick="nav(this)"><span class="ico">🤲</span>Do'a Harian<span class="badge">25+</span></button>
+  <button class="mi" data-pg="developer" onclick="nav(this)"><span class="ico">👨‍💻</span>Tentang Developer<span class="dot"></span></button>
+
+  <div class="sb-foot"><p>© 2026 PAI Terpadu<br/>بَارَكَ اللّٰهُ فِيْكُمْ</p></div>
+</aside>
+
+<!-- ═══════════ TOPBAR ═══════════ -->
+<div id="tb">
+  <button class="tb-burger" onclick="sbToggle()">☰</button>
+  <div class="tb-bc">
+    <span class="tb-home" onclick="nav(document.querySelector('[data-pg=home]'))">🏠 Beranda</span>
+    <span class="tb-sep" id="tbsep" style="display:none">›</span>
+    <span class="tb-cur" id="tbcur"></span>
+  </div>
+  <div class="tb-right">
+    <button class="tb-login-btn" id="topbarLoginBtn" onclick="openLoginModal()">
+      <div class="avatar">👤</div>Login
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ LOGIN MODAL ═══════════ -->
+<div class="modal-overlay" id="loginModal" onclick="closeLoginModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <button class="modal-close-btn" onclick="closeLoginModal()">✕</button>
+      <div class="m-logo">ﷺ</div>
+      <h2>PAI Terpadu</h2>
+      <p>Masuk atau daftar untuk menyimpan progress belajar</p>
+    </div>
+    <div class="modal-tabs">
+      <button class="modal-tab on" id="mtab-login" onclick="switchModalTab('login')">Masuk</button>
+      <button class="modal-tab" id="mtab-register" onclick="switchModalTab('register')">Daftar</button>
+    </div>
+    <div class="modal-body">
+      <!-- Login Form -->
+      <div class="modal-form on" id="mform-login">
+        <div id="mmsg-login" class="modal-msg"></div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="login-email" placeholder="contoh@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-pass" placeholder="Masukkan password"/>
+        </div>
+        <button class="form-btn" onclick="doLogin()">Masuk</button>
+      </div>
+      <!-- Register Form -->
+      <div class="modal-form" id="mform-register">
+        <div id="mmsg-register" class="modal-msg"></div>
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="reg-name" placeholder="Nama Anda"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="contoh@email.com"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="reg-pass" placeholder="Minimal 6 karakter"/>
+        </div>
+        <div class="form-group">
+          <label>Konfirmasi Password</label>
+          <input type="password" id="reg-pass2" placeholder="Ulangi password"/>
+        </div>
+        <button class="form-btn" onclick="doRegister()">Daftar Sekarang</button>
+      </div>
+      <!-- User Info (saat sudah login) -->
+      <div class="modal-form" id="mform-user"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div id="main">
+
+<!-- ══ BERANDA ══ -->
+<div class="pg on" id="pg-home">
+  <div class="home-hero">
+    <div class="home-ring a"></div><div class="home-ring b"></div>
+    <div class="home-arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+    <h1>Pembelajaran <span>Pendidikan Agama Islam</span> Terpadu</h1>
+    <p>Platform belajar agama Islam yang komprehensif dan interaktif. Pilih materi dari menu di sebelah kiri untuk mulai belajar.</p>
+  </div>
+  <div class="home-stats">
+    <div class="hstat"><span class="hstat-i">📖</span><div><div class="hstat-v">5</div><div class="hstat-l">Bidang Materi</div></div></div>
+    <div class="hstat"><span class="hstat-i">📝</span><div><div class="hstat-v">20</div><div class="hstat-l">Halaman Materi</div></div></div>
+    <div class="hstat"><span class="hstat-i">🧪</span><div><div class="hstat-v">60</div><div class="hstat-l">Soal Kuis</div></div></div>
+    <div class="hstat"><span class="hstat-i">🤲</span><div><div class="hstat-v">25+</div><div class="hstat-l">Do'a Harian</div></div></div>
+  </div>
+  <div class="home-materi">
+    <h2>Pilih <span>Bidang Materi</span></h2>
+    <div class="hm-grid">
+      <div class="hm-card" onclick="nav(document.querySelector('[data-pg=quran-pengertian]'))">
+        <div class="hm-top" style="background:linear-gradient(135deg,#1b2a4a,#2a4080)">
+          <div class="hm-ico">📖</div><div><h3>Al-Qur'an &amp; Tajwid</h3><p>Pengertian, tajwid, dan hafalan Al-Qur'an</p></div>
+        </div>
+        <div class="hm-bot">
+          <div class="hm-meta"><span class="hm-m">📚 4 Halaman</span><span class="hm-m">⏱️ 3 Jam/Minggu</span></div>
+          <button class="hm-btn">Mulai Belajar →</button>
+        </div>
+      </div>
+      <div class="hm-card" onclick="nav(document.querySelector('[data-pg=aqidah-rukun]'))">
+        <div class="hm-top" style="background:linear-gradient(135deg,#3d2060,#6a35a8)">
+          <div class="hm-ico">🌟</div><div><h3>Aqidah Islam</h3><p>Rukun Iman, Tauhid, dan Asmaul Husna</p></div>
+        </div>
+        <div class="hm-bot">
+          <div class="hm-meta"><span class="hm-m">📚 4 Halaman</span><span class="hm-m">⏱️ 2 Jam/Minggu</span></div>
+          <button class="hm-btn">Mulai Belajar →</button>
+        </div>
+      </div>
+      <div class="hm-card" onclick="nav(document.querySelector('[data-pg=fiqih-thaharah]'))">
+        <div class="hm-top" style="background:linear-gradient(135deg,#1a3a5c,#2a6090)">
+          <div class="hm-ico">🕌</div><div><h3>Fiqih Ibadah</h3><p>Thaharah, shalat, zakat, dan puasa</p></div>
+        </div>
+        <div class="hm-bot">
+          <div class="hm-meta"><span class="hm-m">📚 4 Halaman</span><span class="hm-m">⏱️ 3 Jam/Minggu</span></div>
+          <button class="hm-btn">Mulai Belajar →</button>
+        </div>
+      </div>
+      <div class="hm-card" onclick="nav(document.querySelector('[data-pg=akhlak-pengertian]'))">
+        <div class="hm-top" style="background:linear-gradient(135deg,#4a1a1a,#903030)">
+          <div class="hm-ico">🌹</div><div><h3>Akhlak &amp; Hadist</h3><p>Akhlak mulia dan hadist pilihan</p></div>
+        </div>
+        <div class="hm-bot">
+          <div class="hm-meta"><span class="hm-m">📚 3 Halaman</span><span class="hm-m">⏱️ 2 Jam/Minggu</span></div>
+          <button class="hm-btn">Mulai Belajar →</button>
+        </div>
+      </div>
+      <div class="hm-card" onclick="nav(document.querySelector('[data-pg=ski-nabi]'))">
+        <div class="hm-top" style="background:linear-gradient(135deg,#2a1a0a,#7a4515)">
+          <div class="hm-ico">🏛️</div><div><h3>Sejarah Islam (SKI)</h3><p>Nabi, Khulafaur Rasyidin, Islam Nusantara</p></div>
+        </div>
+        <div class="hm-bot">
+          <div class="hm-meta"><span class="hm-m">📚 4 Halaman</span><span class="hm-m">⏱️ 2 Jam/Minggu</span></div>
+          <button class="hm-btn">Mulai Belajar →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AL-QUR'AN: PENGERTIAN ══ -->
+<div class="pg" id="pg-quran-pengertian">
+  <div class="ph" style="background:linear-gradient(150deg,#1b2a4a,#2a4080)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner">
+      <div class="ph-ico">📖</div>
+      <div class="ph-txt">
+        <h1>Pengertian Al-Qur'an</h1>
+        <p>Memahami hakikat, kedudukan, dan keistimewaan Al-Qur'an sebagai kitab suci umat Islam</p>
+        <div class="ph-tags"><span class="ph-tag">Al-Qur'an &amp; Tajwid</span><span class="ph-tag">Materi Dasar</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="blk">
+      <div class="blk-title">Definisi Al-Qur'an</div>
+      <p>Al-Qur'an adalah Kalamullah (firman Allah SWT) yang diturunkan kepada Nabi Muhammad ﷺ melalui perantara Malaikat Jibril AS, disampaikan secara mutawatir, dan membacanya adalah ibadah. Al-Qur'an terdiri atas 30 Juz, 114 Surah, dan 6.236 ayat.</p>
+    </div>
+    <div class="dalil">
+      <div class="dalil-arab">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div>
+      <div class="dalil-latin">Innaa nahnu nazzalnadz-dzikra wa innaa lahuu lahaafizhuun</div>
+      <div class="dalil-arti">"Sesungguhnya Kamilah yang menurunkan Al-Qur'an, dan pasti Kami (pula) yang memeliharanya."</div>
+      <div class="dalil-src">— QS. Al-Hijr: 9</div>
+    </div>
+    <div class="dalil-note blk"><p>Ayat ini menjadi jaminan bahwa Al-Qur'an akan senantiasa terjaga kemurniannya hingga hari kiamat. Inilah bukti keistimewaan Al-Qur'an dibanding kitab-kitab suci lainnya.</p></div>
+    <hr class="sec">
+    <div class="blk">
+      <div class="blk-title">Nama-nama Al-Qur'an</div>
+      <div class="cg">
+        <div class="card card-accent"><div class="card-ico">📖</div><h3>Al-Qur'an</h3><p>Bacaan yang sempurna — nama paling populer.</p></div>
+        <div class="card card-accent"><div class="card-ico">💡</div><h3>Al-Furqan</h3><p>Pembeda antara yang hak dan batil, halal dan haram.</p></div>
+        <div class="card card-accent"><div class="card-ico">🌟</div><h3>Az-Zikr</h3><p>Peringatan dan pengingat bagi seluruh alam semesta.</p></div>
+        <div class="card card-accent"><div class="card-ico">🌊</div><h3>Al-Kitab</h3><p>Kitab yang sempurna, lengkap, dan tertulis rapi.</p></div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk">
+      <div class="blk-title">Keistimewaan Al-Qur'an</div>
+      <ul class="lst">
+        <li>Mukjizat terbesar Nabi Muhammad ﷺ yang tetap ada hingga hari kiamat</li>
+        <li>Terjaga kemurniannya — tidak ada satu huruf pun yang berubah sejak diturunkan</li>
+        <li>Membacanya bernilai ibadah dan mendapat pahala per-huruf</li>
+        <li>Obat penawar (syifa') bagi penyakit hati dan jiwa</li>
+        <li>Pedoman hidup komprehensif mencakup seluruh aspek kehidupan</li>
+        <li>Berbahasa Arab yang indah — para sastrawan Arab tidak mampu menandinginya (QS. Al-Isra: 88)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AL-QUR'AN: TAJWID ══ -->
+<div class="pg" id="pg-quran-tajwid">
+  <div class="ph" style="background:linear-gradient(150deg,#1b2a4a,#2a4080)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">🔤</div><div class="ph-txt"><h1>Ilmu Tajwid</h1><p>Kaidah membaca Al-Qur'an: hukum nun mati, mad, makhraj huruf, dan waqaf</p><div class="ph-tags"><span class="ph-tag">Al-Qur'an &amp; Tajwid</span></div></div></div>
+  </div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Hukum Bacaan Nun Mati / Tanwin</div>
+      <table class="tbl"><thead><tr><th>Hukum</th><th>Huruf</th><th>Cara Baca</th></tr></thead><tbody>
+        <tr><td>Izhar Halqi</td><td>أ ه ع ح غ خ</td><td>Jelas, tanpa dengung</td></tr>
+        <tr><td>Idgham Bighunnah</td><td>ي ن م و</td><td>Lebur dengan dengung 2 harakat</td></tr>
+        <tr><td>Idgham Bilaghunnah</td><td>ل ر</td><td>Lebur tanpa dengung</td></tr>
+        <tr><td>Iqlab</td><td>ب</td><td>Bunyi berubah jadi mim + dengung</td></tr>
+        <tr><td>Ikhfa Haqiqi</td><td>15 huruf sisanya</td><td>Antara izhar dan idgham (samar)</td></tr>
+      </tbody></table>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Hukum Bacaan Mad</div>
+      <div class="cg">
+        <div class="card"><h3>Mad Thobi'i</h3><p>Panjang <strong>2 harakat</strong>. Huruf mad (ا و ي) tanpa syarat tambahan.</p></div>
+        <div class="card"><h3>Mad Wajib Muttashil</h3><p>Panjang <strong>4–5 harakat</strong>. Mad thobi'i bertemu hamzah dalam satu kata.</p></div>
+        <div class="card"><h3>Mad Jaiz Munfashil</h3><p>Panjang <strong>2–5 harakat</strong>. Mad thobi'i bertemu hamzah di kata berbeda.</p></div>
+        <div class="card"><h3>Mad 'Aridh Lissukun</h3><p>Panjang <strong>2, 4, atau 6 harakat</strong>. Mad thobi'i sebelum huruf waqaf.</p></div>
+        <div class="card"><h3>Mad Lazim Mutsaqqal</h3><p>Panjang <strong>6 harakat</strong>. Mad thobi'i bertemu huruf bertasydid satu kata.</p></div>
+        <div class="card"><h3>Mad Shilah</h3><p>Panjang <strong>2 atau 5 harakat</strong>. Ha' dhamir di antara dua huruf berharakat.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AL-QUR'AN: JUZ 30 ══ -->
+<div class="pg" id="pg-quran-juz30">
+  <div class="ph" style="background:linear-gradient(150deg,#1b2a4a,#2a4080)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">📜</div><div class="ph-txt"><h1>Hafalan Juz 30 (Juz Amma)</h1><p>Panduan dan keutamaan menghafal surat-surat pendek dalam Juz 30 Al-Qur'an</p></div></div>
+  </div>
+  <div class="pc">
+    <div class="hbox gold"><div class="hbox-ico">⭐</div><div class="hbox-txt"><h4>Sabda Rasulullah ﷺ</h4><p>"Sebaik-baik kalian adalah yang belajar Al-Qur'an dan mengajarkannya." (HR. Bukhari)</p></div></div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Daftar Lengkap Surat Juz 30</div>
+      <table class="tbl"><thead><tr><th>No. Surat</th><th>Nama Surat</th><th>Artinya</th><th>Jml. Ayat</th><th>Turun</th></tr></thead>
+      <tbody>
+        <tr><td>78</td><td>An-Naba'</td><td>Berita Besar</td><td>40</td><td>Makkiyah</td></tr>
+        <tr><td>79</td><td>An-Nazi'at</td><td>Malaikat yang Mencabut</td><td>46</td><td>Makkiyah</td></tr>
+        <tr><td>80</td><td>'Abasa</td><td>Ia Bermuka Masam</td><td>42</td><td>Makkiyah</td></tr>
+        <tr><td>81</td><td>At-Takwir</td><td>Menggulung</td><td>29</td><td>Makkiyah</td></tr>
+        <tr><td>82</td><td>Al-Infithar</td><td>Terbelah</td><td>19</td><td>Makkiyah</td></tr>
+        <tr><td>83</td><td>Al-Muthaffifin</td><td>Orang-orang yang Curang</td><td>36</td><td>Makkiyah</td></tr>
+        <tr><td>84</td><td>Al-Insyiqaq</td><td>Terbelah</td><td>25</td><td>Makkiyah</td></tr>
+        <tr><td>85</td><td>Al-Buruj</td><td>Gugusan Bintang</td><td>22</td><td>Makkiyah</td></tr>
+        <tr><td>86</td><td>Ath-Thariq</td><td>Yang Datang di Malam Hari</td><td>17</td><td>Makkiyah</td></tr>
+        <tr><td>87</td><td>Al-A'la</td><td>Yang Paling Tinggi</td><td>19</td><td>Makkiyah</td></tr>
+        <tr><td>88</td><td>Al-Ghasyiyah</td><td>Hari Pembalasan</td><td>26</td><td>Makkiyah</td></tr>
+        <tr><td>89</td><td>Al-Fajr</td><td>Fajar</td><td>30</td><td>Makkiyah</td></tr>
+        <tr><td>90</td><td>Al-Balad</td><td>Negeri</td><td>20</td><td>Makkiyah</td></tr>
+        <tr><td>91</td><td>Asy-Syams</td><td>Matahari</td><td>15</td><td>Makkiyah</td></tr>
+        <tr><td>92</td><td>Al-Lail</td><td>Malam</td><td>21</td><td>Makkiyah</td></tr>
+        <tr><td>93</td><td>Ad-Dhuha</td><td>Waktu Dhuha</td><td>11</td><td>Makkiyah</td></tr>
+        <tr><td>94</td><td>Asy-Syarh (Al-Insyirah)</td><td>Kelapangan Dada</td><td>8</td><td>Makkiyah</td></tr>
+        <tr><td>95</td><td>At-Tin</td><td>Buah Tin</td><td>8</td><td>Makkiyah</td></tr>
+        <tr><td>96</td><td>Al-'Alaq</td><td>Segumpal Darah</td><td>19</td><td>Makkiyah</td></tr>
+        <tr><td>97</td><td>Al-Qadr</td><td>Kemuliaan</td><td>5</td><td>Makkiyah</td></tr>
+        <tr><td>98</td><td>Al-Bayyinah</td><td>Bukti Nyata</td><td>8</td><td>Madaniyah</td></tr>
+        <tr><td>99</td><td>Az-Zalzalah</td><td>Kegoncangan</td><td>8</td><td>Madaniyah</td></tr>
+        <tr><td>100</td><td>Al-'Adiyat</td><td>Kuda Perang yang Berlari</td><td>11</td><td>Makkiyah</td></tr>
+        <tr><td>101</td><td>Al-Qari'ah</td><td>Hari Kiamat</td><td>11</td><td>Makkiyah</td></tr>
+        <tr><td>102</td><td>At-Takatsur</td><td>Bermegah-megahan</td><td>8</td><td>Makkiyah</td></tr>
+        <tr><td>103</td><td>Al-'Ashr</td><td>Masa / Waktu</td><td>3</td><td>Makkiyah</td></tr>
+        <tr><td>104</td><td>Al-Humazah</td><td>Pengumpat</td><td>9</td><td>Makkiyah</td></tr>
+        <tr><td>105</td><td>Al-Fil</td><td>Gajah</td><td>5</td><td>Makkiyah</td></tr>
+        <tr><td>106</td><td>Quraisy</td><td>Suku Quraisy</td><td>4</td><td>Makkiyah</td></tr>
+        <tr><td>107</td><td>Al-Ma'un</td><td>Barang Berguna</td><td>7</td><td>Makkiyah</td></tr>
+        <tr><td>108</td><td>Al-Kautsar</td><td>Nikmat yang Banyak</td><td>3</td><td>Makkiyah</td></tr>
+        <tr><td>109</td><td>Al-Kafirun</td><td>Orang-orang Kafir</td><td>6</td><td>Makkiyah</td></tr>
+        <tr><td>110</td><td>An-Nashr</td><td>Pertolongan</td><td>3</td><td>Madaniyah</td></tr>
+        <tr><td>111</td><td>Al-Masad (Al-Lahab)</td><td>Gejolak Api</td><td>5</td><td>Makkiyah</td></tr>
+        <tr><td>112</td><td>Al-Ikhlas</td><td>Keesaan Allah</td><td>4</td><td>Makkiyah</td></tr>
+        <tr><td>113</td><td>Al-Falaq</td><td>Waktu Subuh</td><td>5</td><td>Makkiyah</td></tr>
+        <tr><td>114</td><td>An-Nas</td><td>Manusia</td><td>6</td><td>Makkiyah</td></tr>
+      </tbody></table>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Tips Menghafal Al-Qur'an</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><h4>Niatkan karena Allah</h4><p>Luruskan niat semata-mata untuk mendekatkan diri kepada Allah, bukan untuk riya.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><h4>Gunakan mushaf yang sama</h4><p>Selalu gunakan satu jenis mushaf agar posisi ayat terekam dalam memori visual.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><h4>Hafal sedikit demi sedikit</h4><p>Mulai dari 3–5 ayat per hari. Hafalan sedikit tapi kuat lebih baik dari banyak tapi mudah lupa.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><h4>Muroja'ah setiap hari</h4><p>Ulangi hafalan lama sebelum menambah hafalan baru. Muroja'ah adalah kunci hafalan bertahan.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-txt"><h4>Amalkan dalam shalat</h4><p>Gunakan ayat-ayat yang dihafal sebagai bacaan dalam shalat sunnah maupun fardhu.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AQIDAH: RUKUN IMAN ══ -->
+<div class="pg" id="pg-aqidah-rukun">
+  <div class="ph" style="background:linear-gradient(150deg,#3d2060,#6a35a8)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">🌟</div><div class="ph-txt"><h1>Rukun Iman</h1><p>Enam pilar keimanan yang wajib diyakini oleh setiap muslim dengan penuh keyakinan</p></div></div>
+  </div>
+  <div class="pc">
+    <div class="dalil"><div class="dalil-arab">آمَنَ الرَّسُولُ بِمَا أُنزِلَ إِلَيْهِ مِن رَّبِّهِ وَالْمُؤْمِنُونَ</div><div class="dalil-latin">Aamanar-rasuulu bimaa unzila ilaihi mir-rabbihii wal-mu'minuun</div><div class="dalil-arti">"Rasul beriman kepada apa yang diturunkan kepadanya dari Tuhannya, demikian pula orang-orang yang beriman."</div><div class="dalil-src">— QS. Al-Baqarah: 285</div></div>
+    <div class="blk"><div class="blk-title">6 Rukun Iman</div>
+      <div class="cg">
+        <div class="card"><div class="card-ico">☝️</div><h3>1. Iman kepada Allah</h3><p>Meyakini keesaan Allah, sifat-sifat-Nya, dan bahwa hanya Dia yang berhak disembah.</p></div>
+        <div class="card"><div class="card-ico">👼</div><h3>2. Iman kepada Malaikat</h3><p>Meyakini adanya malaikat sebagai makhluk dari cahaya yang selalu taat kepada Allah.</p></div>
+        <div class="card"><div class="card-ico">📚</div><h3>3. Iman kepada Kitab Allah</h3><p>Meyakini 4 kitab: Taurat, Zabur, Injil, dan Al-Qur'an sebagai wahyu Allah.</p></div>
+        <div class="card"><div class="card-ico">🕊️</div><h3>4. Iman kepada Rasul</h3><p>Meyakini para nabi dan rasul yang diutus Allah. Wajib diketahui: 25 Nabi dan Rasul.</p></div>
+        <div class="card"><div class="card-ico">⚖️</div><h3>5. Iman kepada Hari Kiamat</h3><p>Meyakini hari pembalasan: alam barzakh, mahsyar, mizan, shirath, surga dan neraka.</p></div>
+        <div class="card"><div class="card-ico">🌌</div><h3>6. Iman kepada Qada &amp; Qadar</h3><p>Meyakini bahwa segala sesuatu telah ditentukan Allah dalam Lauhul Mahfudz.</p></div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">10 Malaikat dan Tugasnya</div>
+      <table class="tbl"><thead><tr><th>Nama Malaikat</th><th>Tugas</th></tr></thead><tbody>
+        <tr><td>Jibril AS</td><td>Menyampaikan wahyu kepada para Nabi dan Rasul</td></tr>
+        <tr><td>Mikail AS</td><td>Mengatur rizki, hujan, dan tumbuhan</td></tr>
+        <tr><td>Israfil AS</td><td>Meniup sangkakala di hari kiamat</td></tr>
+        <tr><td>Izrail AS</td><td>Mencabut nyawa seluruh makhluk</td></tr>
+        <tr><td>Munkar &amp; Nakir</td><td>Menanyai manusia di alam kubur</td></tr>
+        <tr><td>Raqib AS</td><td>Mencatat amal baik manusia</td></tr>
+        <tr><td>Atid AS</td><td>Mencatat amal buruk manusia</td></tr>
+        <tr><td>Malik AS</td><td>Menjaga neraka</td></tr>
+        <tr><td>Ridwan AS</td><td>Menjaga surga</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AQIDAH: TAUHID ══ -->
+<div class="pg" id="pg-aqidah-tauhid">
+  <div class="ph" style="background:linear-gradient(150deg,#3d2060,#6a35a8)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">☝️</div><div class="ph-txt"><h1>Ilmu Tauhid</h1><p>Mengenal keesaan Allah SWT melalui tiga pembagian tauhid utama dalam Islam</p></div></div>
+  </div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Pembagian Tauhid</div>
+      <div class="cg">
+        <div class="card card-accent"><div class="card-ico">🌍</div><h3>Tauhid Rububiyyah</h3><p>Meyakini Allah satu-satunya Rabb — Pencipta, Pemelihara, dan Pengatur alam semesta.</p></div>
+        <div class="card card-accent"><div class="card-ico">🕌</div><h3>Tauhid Uluhiyyah</h3><p>Meyakini hanya Allah yang berhak diibadahi. Shalat, doa, tawakkal hanya untuk Allah.</p></div>
+        <div class="card card-accent"><div class="card-ico">📿</div><h3>Tauhid Asma' wa Shifat</h3><p>Menetapkan nama dan sifat Allah sesuai yang Dia tetapkan — tanpa ta'thil, tamtsil, dan takyif.</p></div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Bahaya Syirik</div>
+      <div class="dalil"><div class="dalil-arab">إِنَّ اللَّهَ لَا يَغْفِرُ أَن يُشْرَكَ بِهِ وَيَغْفِرُ مَا دُونَ ذَٰلِكَ لِمَن يَشَاءُ</div><div class="dalil-latin">Innallaaha laa yaghfiru ay yusyraka bihii wa yaghfiru maa duuna dzaalika liman yasyaa'</div><div class="dalil-arti">"Sesungguhnya Allah tidak akan mengampuni dosa syirik, dan Dia mengampuni dosa selain itu bagi siapa yang Dia kehendaki."</div><div class="dalil-src">— QS. An-Nisa': 48</div></div>
+      <div class="two">
+        <div class="hbox red"><div class="hbox-ico">⛔</div><div class="hbox-txt"><h4>Syirik Akbar (Besar)</h4><p>Menyekutukan Allah terang-terangan, seperti menyembah berhala. Menghapus seluruh amal.</p></div></div>
+        <div class="hbox gold"><div class="hbox-ico">⚠️</div><div class="hbox-txt"><h4>Syirik Ashghar (Kecil)</h4><p>Riya dan sum'ah — beramal agar dilihat atau didengar manusia.</p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AQIDAH: ASMAUL HUSNA ══ -->
+<div class="pg" id="pg-aqidah-asmaul">
+  <div class="ph" style="background:linear-gradient(150deg,#3d2060,#6a35a8)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">📿</div><div class="ph-txt"><h1>Asmaul Husna</h1><p>99 nama-nama Allah yang maha indah beserta maknanya yang mendalam</p></div></div>
+  </div>
+  <div class="pc">
+    <div class="dalil"><div class="dalil-arab">وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَىٰ فَادْعُوهُ بِهَا</div><div class="dalil-latin">Wa lillaahil asmaa-ul husnaa fad'uuhu bihaa</div><div class="dalil-arti">"Dan Allah memiliki Asmaul Husna (nama-nama terbaik), maka bermohonlah kepada-Nya dengan menyebut nama-nama itu."</div><div class="dalil-src">— QS. Al-A'raf: 180</div></div>
+    <div class="blk"><div class="blk-title">99 Asmaul Husna Lengkap</div>
+      <table class="tbl"><thead><tr><th>No</th><th>Arab</th><th>Latin</th><th>Artinya</th></tr></thead><tbody>
+        <tr><td>1</td><td>اللَّهُ</td><td>Allah</td><td>Yang Maha Esa, Satu-satunya Tuhan yang berhak disembah</td></tr>
+        <tr><td>2</td><td>الرَّحْمٰنُ</td><td>Ar-Rahman</td><td>Yang Maha Pengasih (kepada semua makhluk)</td></tr>
+        <tr><td>3</td><td>الرَّحِيْمُ</td><td>Ar-Rahim</td><td>Yang Maha Penyayang (khusus kepada orang beriman)</td></tr>
+        <tr><td>4</td><td>الْمَلِكُ</td><td>Al-Malik</td><td>Yang Maha Raja dan Penguasa</td></tr>
+        <tr><td>5</td><td>الْقُدُّوسُ</td><td>Al-Quddus</td><td>Yang Maha Suci dari segala kekurangan</td></tr>
+        <tr><td>6</td><td>السَّلَامُ</td><td>As-Salam</td><td>Yang Maha Pemberi Keselamatan</td></tr>
+        <tr><td>7</td><td>الْمُؤْمِنُ</td><td>Al-Mu'min</td><td>Yang Maha Pemberi Keamanan</td></tr>
+        <tr><td>8</td><td>الْمُهَيْمِنُ</td><td>Al-Muhaymin</td><td>Yang Maha Mengawasi dan Memelihara</td></tr>
+        <tr><td>9</td><td>الْعَزِيْزُ</td><td>Al-'Aziz</td><td>Yang Maha Perkasa</td></tr>
+        <tr><td>10</td><td>الْجَبَّارُ</td><td>Al-Jabbar</td><td>Yang Maha Memaksa dan Menundukkan</td></tr>
+        <tr><td>11</td><td>الْمُتَكَبِّرُ</td><td>Al-Mutakabbir</td><td>Yang Maha Megah dan Memiliki Keagungan</td></tr>
+        <tr><td>12</td><td>الْخَالِقُ</td><td>Al-Khaliq</td><td>Yang Maha Pencipta</td></tr>
+        <tr><td>13</td><td>الْبَارِئُ</td><td>Al-Bari'</td><td>Yang Maha Melepaskan / Pencipta dari tiada</td></tr>
+        <tr><td>14</td><td>الْمُصَوِّرُ</td><td>Al-Mushawwir</td><td>Yang Maha Membentuk Rupa</td></tr>
+        <tr><td>15</td><td>الْغَفَّارُ</td><td>Al-Ghaffar</td><td>Yang Maha Pengampun</td></tr>
+        <tr><td>16</td><td>الْقَهَّارُ</td><td>Al-Qahhar</td><td>Yang Maha Menundukkan</td></tr>
+        <tr><td>17</td><td>الْوَهَّابُ</td><td>Al-Wahhab</td><td>Yang Maha Pemberi</td></tr>
+        <tr><td>18</td><td>الرَّزَّاقُ</td><td>Ar-Razzaq</td><td>Yang Maha Pemberi Rezeki</td></tr>
+        <tr><td>19</td><td>الْفَتَّاحُ</td><td>Al-Fattah</td><td>Yang Maha Pembuka dan Menguak Rahmat</td></tr>
+        <tr><td>20</td><td>الْعَلِيْمُ</td><td>Al-'Alim</td><td>Yang Maha Mengetahui</td></tr>
+        <tr><td>21</td><td>الْقَابِضُ</td><td>Al-Qabidh</td><td>Yang Maha Menyempitkan</td></tr>
+        <tr><td>22</td><td>الْبَاسِطُ</td><td>Al-Basith</td><td>Yang Maha Meluaskan</td></tr>
+        <tr><td>23</td><td>الْخَافِضُ</td><td>Al-Khafidh</td><td>Yang Maha Merendahkan</td></tr>
+        <tr><td>24</td><td>الرَّافِعُ</td><td>Ar-Rafi'</td><td>Yang Maha Meninggikan</td></tr>
+        <tr><td>25</td><td>الْمُعِزُّ</td><td>Al-Mu'izz</td><td>Yang Maha Memuliakan</td></tr>
+        <tr><td>26</td><td>الْمُذِلُّ</td><td>Al-Mudzill</td><td>Yang Maha Menghinakan</td></tr>
+        <tr><td>27</td><td>السَّمِيْعُ</td><td>As-Sami'</td><td>Yang Maha Mendengar</td></tr>
+        <tr><td>28</td><td>الْبَصِيْرُ</td><td>Al-Bashir</td><td>Yang Maha Melihat</td></tr>
+        <tr><td>29</td><td>الْحَكَمُ</td><td>Al-Hakam</td><td>Yang Maha Memutuskan Hukum</td></tr>
+        <tr><td>30</td><td>الْعَدْلُ</td><td>Al-'Adl</td><td>Yang Maha Adil</td></tr>
+        <tr><td>31</td><td>اللَّطِيْفُ</td><td>Al-Lathif</td><td>Yang Maha Lembut</td></tr>
+        <tr><td>32</td><td>الْخَبِيْرُ</td><td>Al-Khabir</td><td>Yang Maha Mengenal</td></tr>
+        <tr><td>33</td><td>الْحَلِيْمُ</td><td>Al-Halim</td><td>Yang Maha Penyantun</td></tr>
+        <tr><td>34</td><td>الْعَظِيْمُ</td><td>Al-'Azhim</td><td>Yang Maha Agung</td></tr>
+        <tr><td>35</td><td>الْغَفُوْرُ</td><td>Al-Ghafur</td><td>Yang Maha Pengampun</td></tr>
+        <tr><td>36</td><td>الشَّكُوْرُ</td><td>Asy-Syakur</td><td>Yang Maha Mensyukuri</td></tr>
+        <tr><td>37</td><td>الْعَلِيُّ</td><td>Al-'Ali</td><td>Yang Maha Tinggi</td></tr>
+        <tr><td>38</td><td>الْكَبِيْرُ</td><td>Al-Kabir</td><td>Yang Maha Besar</td></tr>
+        <tr><td>39</td><td>الْحَفِيْظُ</td><td>Al-Hafizh</td><td>Yang Maha Memelihara</td></tr>
+        <tr><td>40</td><td>الْمُقِيْتُ</td><td>Al-Muqit</td><td>Yang Maha Pemberi Kecukupan</td></tr>
+        <tr><td>41</td><td>الْحَسِيْبُ</td><td>Al-Hasib</td><td>Yang Maha Membuat Perhitungan</td></tr>
+        <tr><td>42</td><td>الْجَلِيْلُ</td><td>Al-Jalil</td><td>Yang Maha Mulia</td></tr>
+        <tr><td>43</td><td>الْكَرِيْمُ</td><td>Al-Karim</td><td>Yang Maha Mulia dan Pemurah</td></tr>
+        <tr><td>44</td><td>الرَّقِيْبُ</td><td>Ar-Raqib</td><td>Yang Maha Mengawasi</td></tr>
+        <tr><td>45</td><td>الْمُجِيْبُ</td><td>Al-Mujib</td><td>Yang Maha Mengabulkan</td></tr>
+        <tr><td>46</td><td>الْوَاسِعُ</td><td>Al-Wasi'</td><td>Yang Maha Luas</td></tr>
+        <tr><td>47</td><td>الْحَكِيْمُ</td><td>Al-Hakim</td><td>Yang Maha Bijaksana</td></tr>
+        <tr><td>48</td><td>الْوَدُوْدُ</td><td>Al-Wadud</td><td>Yang Maha Mencintai</td></tr>
+        <tr><td>49</td><td>الْمَجِيْدُ</td><td>Al-Majid</td><td>Yang Maha Mulia</td></tr>
+        <tr><td>50</td><td>الْبَاعِثُ</td><td>Al-Ba'its</td><td>Yang Maha Membangkitkan</td></tr>
+        <tr><td>51</td><td>الشَّهِيْدُ</td><td>Asy-Syahid</td><td>Yang Maha Menyaksikan</td></tr>
+        <tr><td>52</td><td>الْحَقُّ</td><td>Al-Haqq</td><td>Yang Maha Benar</td></tr>
+        <tr><td>53</td><td>الْوَكِيْلُ</td><td>Al-Wakil</td><td>Yang Maha Memelihara dan Mengurus</td></tr>
+        <tr><td>54</td><td>الْقَوِيُّ</td><td>Al-Qawiyy</td><td>Yang Maha Kuat</td></tr>
+        <tr><td>55</td><td>الْمَتِيْنُ</td><td>Al-Matin</td><td>Yang Maha Kokoh</td></tr>
+        <tr><td>56</td><td>الْوَلِيُّ</td><td>Al-Waliyy</td><td>Yang Maha Melindungi</td></tr>
+        <tr><td>57</td><td>الْحَمِيْدُ</td><td>Al-Hamid</td><td>Yang Maha Terpuji</td></tr>
+        <tr><td>58</td><td>الْمُحْصِيْ</td><td>Al-Muhshi</td><td>Yang Maha Menghitung</td></tr>
+        <tr><td>59</td><td>الْمُبْدِئُ</td><td>Al-Mubdi'</td><td>Yang Maha Memulai</td></tr>
+        <tr><td>60</td><td>الْمُعِيْدُ</td><td>Al-Mu'id</td><td>Yang Maha Mengembalikan</td></tr>
+        <tr><td>61</td><td>الْمُحْيِيْ</td><td>Al-Muhyi</td><td>Yang Maha Menghidupkan</td></tr>
+        <tr><td>62</td><td>الْمُمِيْتُ</td><td>Al-Mumit</td><td>Yang Maha Mematikan</td></tr>
+        <tr><td>63</td><td>الْحَيُّ</td><td>Al-Hayy</td><td>Yang Maha Hidup</td></tr>
+        <tr><td>64</td><td>الْقَيُّوْمُ</td><td>Al-Qayyum</td><td>Yang Maha Berdiri Sendiri</td></tr>
+        <tr><td>65</td><td>الْوَاجِدُ</td><td>Al-Wajid</td><td>Yang Maha Menemukan</td></tr>
+        <tr><td>66</td><td>الْمَاجِدُ</td><td>Al-Majid</td><td>Yang Maha Mulia dan Dermawan</td></tr>
+        <tr><td>67</td><td>الْوَاحِدُ</td><td>Al-Wahid</td><td>Yang Maha Esa</td></tr>
+        <tr><td>68</td><td>الأَحَدُ</td><td>Al-Ahad</td><td>Yang Maha Tunggal</td></tr>
+        <tr><td>69</td><td>الصَّمَدُ</td><td>Ash-Shamad</td><td>Yang Menjadi Tujuan Segala Kebutuhan</td></tr>
+        <tr><td>70</td><td>الْقَادِرُ</td><td>Al-Qadir</td><td>Yang Maha Kuasa</td></tr>
+        <tr><td>71</td><td>الْمُقْتَدِرُ</td><td>Al-Muqtadir</td><td>Yang Maha Berkuasa</td></tr>
+        <tr><td>72</td><td>الْمُقَدِّمُ</td><td>Al-Muqaddim</td><td>Yang Maha Mendahulukan</td></tr>
+        <tr><td>73</td><td>الْمُؤَخِّرُ</td><td>Al-Mu'akhkhir</td><td>Yang Maha Mengakhirkan</td></tr>
+        <tr><td>74</td><td>الْأَوَّلُ</td><td>Al-Awwal</td><td>Yang Maha Awal</td></tr>
+        <tr><td>75</td><td>الْآخِرُ</td><td>Al-Akhir</td><td>Yang Maha Akhir</td></tr>
+        <tr><td>76</td><td>الظَّاهِرُ</td><td>Azh-Zhahir</td><td>Yang Maha Nyata</td></tr>
+        <tr><td>77</td><td>الْبَاطِنُ</td><td>Al-Bathin</td><td>Yang Maha Tersembunyi / Batin</td></tr>
+        <tr><td>78</td><td>الْوَالِيْ</td><td>Al-Wali</td><td>Yang Maha Memerintah</td></tr>
+        <tr><td>79</td><td>الْمُتَعَالِيْ</td><td>Al-Muta'ali</td><td>Yang Maha Tinggi</td></tr>
+        <tr><td>80</td><td>الْبَرُّ</td><td>Al-Barr</td><td>Yang Maha Dermawan dan Berbuat Baik</td></tr>
+        <tr><td>81</td><td>التَّوَّابُ</td><td>At-Tawwab</td><td>Yang Maha Menerima Taubat</td></tr>
+        <tr><td>82</td><td>الْمُنْتَقِمُ</td><td>Al-Muntaqim</td><td>Yang Maha Pemberi Balasan</td></tr>
+        <tr><td>83</td><td>الْعَفُوُّ</td><td>Al-'Afuww</td><td>Yang Maha Pemaaf</td></tr>
+        <tr><td>84</td><td>الرَّؤُوْفُ</td><td>Ar-Ra'uf</td><td>Yang Maha Pengasih Penuh Belas Kasih</td></tr>
+        <tr><td>85</td><td>مَالِكُ الْمُلْكِ</td><td>Malik-ul-Mulk</td><td>Yang Maha Memiliki Kerajaan</td></tr>
+        <tr><td>86</td><td>ذُو الْجَلَالِ وَالإِكْرَامِ</td><td>Dzul-Jalali wal-Ikram</td><td>Yang Memiliki Keagungan dan Kemuliaan</td></tr>
+        <tr><td>87</td><td>الْمُقْسِطُ</td><td>Al-Muqsith</td><td>Yang Maha Adil dan Merata</td></tr>
+        <tr><td>88</td><td>الْجَامِعُ</td><td>Al-Jami'</td><td>Yang Maha Mengumpulkan</td></tr>
+        <tr><td>89</td><td>الْغَنِيُّ</td><td>Al-Ghani</td><td>Yang Maha Kaya</td></tr>
+        <tr><td>90</td><td>الْمُغْنِيْ</td><td>Al-Mughni</td><td>Yang Maha Memberi Kekayaan</td></tr>
+        <tr><td>91</td><td>الْمَانِعُ</td><td>Al-Mani'</td><td>Yang Maha Pencegah</td></tr>
+        <tr><td>92</td><td>الضَّارُّ</td><td>Adh-Dharr</td><td>Yang Maha Mendatangkan Mudharat</td></tr>
+        <tr><td>93</td><td>النَّافِعُ</td><td>An-Nafi'</td><td>Yang Maha Memberi Manfaat</td></tr>
+        <tr><td>94</td><td>النُّوْرُ</td><td>An-Nur</td><td>Yang Maha Bercahaya</td></tr>
+        <tr><td>95</td><td>الْهَادِيْ</td><td>Al-Hadi</td><td>Yang Maha Pemberi Petunjuk</td></tr>
+        <tr><td>96</td><td>الْبَدِيْعُ</td><td>Al-Badi'</td><td>Yang Maha Pencipta yang Tiada Bandingan</td></tr>
+        <tr><td>97</td><td>الْبَاقِيْ</td><td>Al-Baqi</td><td>Yang Maha Kekal</td></tr>
+        <tr><td>98</td><td>الْوَارِثُ</td><td>Al-Warits</td><td>Yang Maha Mewarisi</td></tr>
+        <tr><td>99</td><td>الرَّشِيْدُ</td><td>Ar-Rasyid</td><td>Yang Maha Cerdas dan Tepat</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FIQIH ══ -->
+<div class="pg" id="pg-fiqih-thaharah">
+  <div class="ph" style="background:linear-gradient(150deg,#1a3a5c,#2a6090)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">💧</div><div class="ph-txt"><h1>Thaharah (Bersuci)</h1><p>Hukum, tata cara, dan macam-macam bersuci dari hadast dan najis dalam Islam</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Tata Cara Wudhu</div>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-txt"><h4>Niat</h4><p>"Nawaitul wudhuu-a liraf'il hadatsil ashghari fardhal lillahi ta'aalaa."</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-txt"><h4>Membasuh kedua telapak tangan</h4><p>Basuh 3 kali sambil membersihkan sela-sela jari.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-txt"><h4>Berkumur dan membersihkan hidung</h4><p>Masing-masing 3 kali.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-txt"><h4>Membasuh seluruh wajah</h4><p>Dari batas rambut hingga dagu, dari telinga ke telinga. 3 kali.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-txt"><h4>Membasuh kedua tangan hingga siku</h4><p>Mulai dari tangan kanan, 3 kali.</p></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-txt"><h4>Mengusap kepala dan telinga</h4><p>Usap seluruh kepala 1 kali dari depan ke belakang, lalu usap telinga.</p></div></div>
+        <div class="step"><div class="step-num">7</div><div class="step-txt"><h4>Membasuh kedua kaki hingga mata kaki</h4><p>Mulai dari kaki kanan, 3 kali.</p></div></div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Hal yang Membatalkan Wudhu</div>
+      <ul class="lst">
+        <li>Keluar sesuatu dari dua jalan (qubul dan dubur)</li>
+        <li>Hilang akal karena tidur nyenyak, pingsan, atau mabuk</li>
+        <li>Menyentuh kemaluan sendiri dengan telapak tangan tanpa alas</li>
+        <li>Menyentuh lawan jenis bukan mahram (menurut mazhab Syafi'i)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-fiqih-shalat">
+  <div class="ph" style="background:linear-gradient(150deg,#1a3a5c,#2a6090)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🙏</div><div class="ph-txt"><h1>Shalat</h1><p>Tata cara, syarat, rukun, waktu shalat fardhu lima waktu dan shalat sunnah</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Waktu dan Rakaat Shalat Fardhu</div>
+      <table class="tbl"><thead><tr><th>Shalat</th><th>Waktu</th><th>Rakaat</th></tr></thead><tbody>
+        <tr><td>Subuh</td><td>Fajar shadiq — sebelum matahari terbit</td><td>2 rakaat</td></tr>
+        <tr><td>Dzuhur</td><td>Matahari tergelincir — bayangan = benda</td><td>4 rakaat</td></tr>
+        <tr><td>Ashar</td><td>Bayangan 2× benda — sebelum Maghrib</td><td>4 rakaat</td></tr>
+        <tr><td>Maghrib</td><td>Matahari terbenam — hilang mega merah</td><td>3 rakaat</td></tr>
+        <tr><td>Isya'</td><td>Hilang mega merah — sebelum Subuh</td><td>4 rakaat</td></tr>
+      </tbody></table>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">13 Rukun Shalat</div>
+      <div class="two">
+        <ul class="lst"><li>Niat</li><li>Takbiratul ihram</li><li>Berdiri bagi yang mampu</li><li>Membaca Al-Fatihah</li><li>Ruku' dengan tuma'ninah</li><li>I'tidal dengan tuma'ninah</li><li>Sujud dua kali dengan tuma'ninah</li></ul>
+        <ul class="lst"><li>Duduk di antara dua sujud</li><li>Duduk tasyahud akhir</li><li>Membaca tasyahud akhir</li><li>Membaca shalawat atas Nabi</li><li>Salam pertama (ke kanan)</li><li>Tertib (berurutan)</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-fiqih-zakat">
+  <div class="ph" style="background:linear-gradient(150deg,#1a3a5c,#2a6090)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">💰</div><div class="ph-txt"><h1>Zakat &amp; Puasa</h1><p>Ketentuan zakat mal, zakat fitrah, serta hukum dan hikmah puasa Ramadhan</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Zakat Mal</div>
+      <table class="tbl"><thead><tr><th>Jenis</th><th>Nishab</th><th>Haul</th><th>Kadar</th></tr></thead><tbody>
+        <tr><td>Zakat Emas</td><td>85 gram emas murni</td><td>1 tahun Hijriah</td><td>2,5%</td></tr>
+        <tr><td>Zakat Perak</td><td>595 gram perak</td><td>1 tahun Hijriah</td><td>2,5%</td></tr>
+        <tr><td>Zakat Perdagangan</td><td>Setara 85 gram emas</td><td>1 tahun Hijriah</td><td>2,5%</td></tr>
+        <tr><td>Zakat Pertanian</td><td>653 kg gabah</td><td>Setiap panen</td><td>10% / 5%</td></tr>
+        <tr><td>Zakat Profesi</td><td>Setara 85 gram emas</td><td>Per bulan/tahun</td><td>2,5%</td></tr>
+      </tbody></table>
+    </div>
+    <hr class="sec">
+    <div class="blk"><div class="blk-title">Hal yang Membatalkan Puasa</div>
+      <ul class="lst">
+        <li>Makan dan minum dengan sengaja di siang hari</li>
+        <li>Jima' (hubungan suami-istri) di siang hari</li>
+        <li>Muntah dengan sengaja</li>
+        <li>Haid atau nifas bagi perempuan</li>
+        <li>Keluarnya mani dengan sengaja</li>
+        <li>Murtad (keluar dari Islam)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AKHLAK ══ -->
+<div class="pg" id="pg-akhlak-pengertian">
+  <div class="ph" style="background:linear-gradient(150deg,#4a1a1a,#903030)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🌹</div><div class="ph-txt"><h1>Akhlak Mulia</h1><p>Pengertian akhlak, sifat-sifat terpuji, dan cara membangun karakter Islami</p></div></div></div>
+  <div class="pc">
+    <div class="dalil"><div class="dalil-arab">وَإِنَّكَ لَعَلَىٰ خُلُقٍ عَظِيمٍ</div><div class="dalil-latin">Wa innaka la'alaa khuluqin 'azhiim</div><div class="dalil-arti">"Dan sesungguhnya engkau (Muhammad) benar-benar berbudi pekerti yang agung."</div><div class="dalil-src">— QS. Al-Qalam: 4</div></div>
+    <div class="blk"><div class="blk-title">Sifat-Sifat Terpuji (Akhlak Mahmudah)</div>
+      <div class="cg">
+        <div class="card"><div class="card-ico">🤲</div><h3>Ikhlas</h3><p>Melakukan amal semata karena Allah, bukan karena ingin dilihat (riya) atau didengar (sum'ah).</p></div>
+        <div class="card"><div class="card-ico">💪</div><h3>Sabar</h3><p>Teguh menghadapi ujian, menahan diri dari maksiat, dan tekun dalam ketaatan.</p></div>
+        <div class="card"><div class="card-ico">❤️</div><h3>Syukur</h3><p>Mengakui nikmat Allah dengan hati, lisan, dan perbuatan. Syukur memperbanyak nikmat.</p></div>
+        <div class="card"><div class="card-ico">🙏</div><h3>Tawadhu'</h3><p>Rendah hati, tidak sombong, tidak meremehkan orang lain.</p></div>
+        <div class="card"><div class="card-ico">🤝</div><h3>Amanah</h3><p>Dapat dipercaya, menepati janji, dan menunaikan tanggung jawab.</p></div>
+        <div class="card"><div class="card-ico">✅</div><h3>Jujur (Shidq)</h3><p>Berkata dan berbuat sesuai kenyataan. Kejujuran mengantarkan ke surga.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-akhlak-hadist">
+  <div class="ph" style="background:linear-gradient(150deg,#4a1a1a,#903030)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">📜</div><div class="ph-txt"><h1>Hadist Pilihan</h1><p>Kumpulan hadist shahih pilihan sebagai pedoman kehidupan sehari-hari</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Hadist tentang Niat</div>
+      <div class="dalil"><div class="dalil-arab">إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ</div><div class="dalil-latin">Innamal a'maalu binniyyaat</div><div class="dalil-arti">"Sesungguhnya setiap amal tergantung pada niatnya."</div><div class="dalil-src">— HR. Bukhari &amp; Muslim</div></div>
+    </div>
+    <div class="blk"><div class="blk-title">Hadist tentang Menuntut Ilmu</div>
+      <div class="dalil"><div class="dalil-arab">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ</div><div class="dalil-latin">Thalabul 'ilmi fariidhatun 'alaa kulli muslimin</div><div class="dalil-arti">"Menuntut ilmu adalah kewajiban bagi setiap muslim."</div><div class="dalil-src">— HR. Ibnu Majah</div></div>
+    </div>
+    <div class="blk"><div class="blk-title">Hadist tentang Akhlak</div>
+      <div class="dalil"><div class="dalil-arab">إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الْأَخْلَاقِ</div><div class="dalil-latin">Innamaa bu'itstu liutammima makaaramal akhlaaq</div><div class="dalil-arti">"Sesungguhnya aku diutus hanyalah untuk menyempurnakan kesalehan akhlak."</div><div class="dalil-src">— HR. Al-Baihaqi</div></div>
+    </div>
+    <div class="blk"><div class="blk-title">Hadist tentang Muslim Sejati</div>
+      <div class="dalil"><div class="dalil-arab">الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ</div><div class="dalil-latin">Al-muslimu man salimal muslimuuna mil-lisaanihi wa yadih</div><div class="dalil-arti">"Seorang muslim adalah orang yang kaum muslimin selamat dari gangguan lisan dan tangannya."</div><div class="dalil-src">— HR. Bukhari &amp; Muslim</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SKI ══ -->
+<div class="pg" id="pg-ski-nabi">
+  <div class="ph" style="background:linear-gradient(150deg,#2a1a0a,#7a4515)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🕌</div><div class="ph-txt"><h1>Sejarah Nabi Muhammad ﷺ</h1><p>Perjalanan hidup, perjuangan dakwah, dan peristiwa penting dalam kehidupan Rasulullah</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Garis Besar Perjalanan Hidup Nabi ﷺ</div>
+      <table class="tbl"><thead><tr><th>Tahun</th><th>Peristiwa</th></tr></thead><tbody>
+        <tr><td>570 M</td><td>Lahir di Makkah, Tahun Gajah. Ayahnya (Abdullah) sudah wafat sebelum lahir.</td></tr>
+        <tr><td>576 M</td><td>Ibunya (Aminah) wafat. Diasuh kakeknya lalu pamannya Abu Thalib.</td></tr>
+        <tr><td>595 M</td><td>Menikah dengan Khadijah. Dijuluki al-Amin oleh masyarakat Makkah.</td></tr>
+        <tr><td>610 M</td><td>Menerima wahyu pertama (QS. Al-'Alaq 1–5) di Gua Hira.</td></tr>
+        <tr><td>619 M</td><td>Tahun Kesedihan — Khadijah dan Abu Thalib wafat dalam satu tahun.</td></tr>
+        <tr><td>620 M</td><td>Isra' Mi'raj — diturunkan perintah shalat 5 waktu.</td></tr>
+        <tr><td>622 M</td><td>Hijrah ke Madinah — Awal kalender Hijriyah.</td></tr>
+        <tr><td>624 M</td><td>Perang Badar — kemenangan pertama (313 vs 1.000 pasukan).</td></tr>
+        <tr><td>630 M</td><td>Fathu Makkah — Pembebasan Kota Makkah tanpa pertumpahan darah.</td></tr>
+        <tr><td>632 M</td><td>Haji Wada'. Nabi ﷺ wafat pada 12 Rabi'ul Awwal.</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-ski-sahabat">
+  <div class="ph" style="background:linear-gradient(150deg,#2a1a0a,#7a4515)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">⚔️</div><div class="ph-txt"><h1>Khulafaur Rasyidin</h1><p>Empat khalifah pengganti Nabi Muhammad ﷺ dan pencapaian penting masa pemerintahannya</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">4 Khalifah dan Masa Pemerintahannya</div>
+      <table class="tbl"><thead><tr><th>Khalifah</th><th>Masa</th><th>Julukan</th><th>Pencapaian Utama</th></tr></thead><tbody>
+        <tr><td>Abu Bakar Ash-Shiddiq</td><td>632–634 M</td><td>Ash-Shiddiq</td><td>Perangi nabi palsu, himpun mushaf Al-Qur'an, perluasan wilayah ke Persia &amp; Syam</td></tr>
+        <tr><td>Umar bin Khattab</td><td>634–644 M</td><td>Al-Faruq</td><td>Penaklukan Persia, Mesir, Palestina; tetapkan kalender Hijriyah; dirikan baitul mal</td></tr>
+        <tr><td>Utsman bin Affan</td><td>644–656 M</td><td>Dzun Nuraini</td><td>Standardisasi mushaf Al-Qur'an (Mushaf Utsmani) yang digunakan hingga kini</td></tr>
+        <tr><td>Ali bin Abi Thalib</td><td>656–661 M</td><td>Babus 'Ilm</td><td>Sepupu &amp; menantu Nabi; menghadapi fitnah besar pertama (perang saudara)</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<div class="pg" id="pg-ski-nusantara">
+  <div class="ph" style="background:linear-gradient(150deg,#2a1a0a,#7a4515)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🌴</div><div class="ph-txt"><h1>Islam di Nusantara</h1><p>Sejarah masuk dan berkembangnya Islam di Indonesia melalui jalur perdagangan dan dakwah</p></div></div></div>
+  <div class="pc">
+    <div class="blk"><div class="blk-title">Wali Songo — Penyebar Islam di Jawa</div>
+      <table class="tbl"><thead><tr><th>Nama</th><th>Daerah</th><th>Metode Dakwah</th></tr></thead><tbody>
+        <tr><td>Sunan Gresik (Maulana Malik Ibrahim)</td><td>Gresik, Jatim</td><td>Perdagangan dan sosial</td></tr>
+        <tr><td>Sunan Ampel (Raden Rahmat)</td><td>Surabaya, Jatim</td><td>Pendidikan pesantren</td></tr>
+        <tr><td>Sunan Bonang (Raden Makdum Ibrahim)</td><td>Tuban, Jatim</td><td>Seni gamelan dan tembang</td></tr>
+        <tr><td>Sunan Drajat (Raden Qasim)</td><td>Lamongan, Jatim</td><td>Sosial dan ekonomi rakyat</td></tr>
+        <tr><td>Sunan Giri (Raden Paku)</td><td>Gresik, Jatim</td><td>Pendidikan dan permainan anak</td></tr>
+        <tr><td>Sunan Kalijaga (Raden Said)</td><td>Demak, Jateng</td><td>Wayang, seni, dan budaya Jawa</td></tr>
+        <tr><td>Sunan Kudus (Ja'far Shadiq)</td><td>Kudus, Jateng</td><td>Toleransi budaya Hindu-Buddha</td></tr>
+        <tr><td>Sunan Muria (Raden Umar Said)</td><td>Kudus, Jateng</td><td>Tembang, pertanian, kerajinan</td></tr>
+        <tr><td>Sunan Gunung Jati (Syarif Hidayatullah)</td><td>Cirebon, Jabar</td><td>Politik dan kekuasaan</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DO'A HARIAN ══ -->
+<div class="pg" id="pg-doa">
+  <div class="ph" style="background:linear-gradient(150deg,var(--navy3),#2a3f6f)">
+    <div class="ph-ring a"></div><div class="ph-ring b"></div>
+    <div class="ph-inner"><div class="ph-ico">🤲</div><div class="ph-txt"><h1>Do'a Harian</h1><p>Kumpulan do'a sehari-hari lengkap dengan tulisan Arab, latin, dan terjemahan Bahasa Indonesia</p></div></div>
+  </div>
+  <div style="padding:32px 52px 52px;">
+    <div class="doa-grid" id="doaGrid"></div>
+  </div>
+</div>
+
+<!-- ══ KUIS PAGES ══ -->
+<div class="pg" id="pg-quran-kuis">
+  <div class="ph" style="background:linear-gradient(150deg,#1b2a4a,#2a4080)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🧪</div><div class="ph-txt"><h1>Kuis — Al-Qur'an &amp; Tajwid</h1><p>Uji pemahaman tentang Al-Qur'an dan Ilmu Tajwid. Jawaban tersimpan otomatis.</p></div></div></div>
+  <div class="pc" id="kpc-quran"></div>
+</div>
+<div class="pg" id="pg-aqidah-kuis">
+  <div class="ph" style="background:linear-gradient(150deg,#3d2060,#6a35a8)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🧪</div><div class="ph-txt"><h1>Kuis — Aqidah Islam</h1><p>Uji pemahaman tentang Rukun Iman, Tauhid, dan Asmaul Husna. Jawaban tersimpan otomatis.</p></div></div></div>
+  <div class="pc" id="kpc-aqidah"></div>
+</div>
+<div class="pg" id="pg-fiqih-kuis">
+  <div class="ph" style="background:linear-gradient(150deg,#1a3a5c,#2a6090)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🧪</div><div class="ph-txt"><h1>Kuis — Fiqih Ibadah</h1><p>Uji pemahaman tentang Thaharah, Shalat, Zakat, dan Puasa. Jawaban tersimpan otomatis.</p></div></div></div>
+  <div class="pc" id="kpc-fiqih"></div>
+</div>
+<div class="pg" id="pg-akhlak-kuis">
+  <div class="ph" style="background:linear-gradient(150deg,#4a1a1a,#903030)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🧪</div><div class="ph-txt"><h1>Kuis — Akhlak &amp; Hadist</h1><p>Uji pemahaman tentang Akhlak Mulia dan Hadist Pilihan. Jawaban tersimpan otomatis.</p></div></div></div>
+  <div class="pc" id="kpc-akhlak"></div>
+</div>
+<div class="pg" id="pg-ski-kuis">
+  <div class="ph" style="background:linear-gradient(150deg,#2a1a0a,#7a4515)"><div class="ph-ring a"></div><div class="ph-ring b"></div><div class="ph-inner"><div class="ph-ico">🧪</div><div class="ph-txt"><h1>Kuis — Sejarah Islam</h1><p>Uji pemahaman tentang Sejarah Nabi, Khulafaur Rasyidin, dan Islam di Nusantara. Jawaban tersimpan otomatis.</p></div></div></div>
+  <div class="pc" id="kpc-ski"></div>
+</div>
+
+<!-- ══ DEVELOPER ══ -->
+<div class="pg" id="pg-developer">
+  <div class="dev-hero">
+    <div class="dev-hero-ring a"></div><div class="dev-hero-ring b"></div>
+    <div class="dev-hero-inner">
+      <div style="display:inline-block;background:rgba(201,160,74,.18);color:var(--gold2);padding:5px 18px;border-radius:50px;font-size:12px;font-weight:600;letter-spacing:1px;margin-bottom:16px;">👨‍💻 TENTANG DEVELOPER</div>
+      <h1 style="font-size:28px;font-weight:700;color:var(--white);margin-bottom:8px;">Profil Pengembang Website</h1>
+      <p style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.7;">Website Pembelajaran PAI Terpadu dirancang dan dikembangkan oleh:</p>
+    </div>
+  </div>
+  <div class="pc">
+    <div class="blk">
+      <div class="blk-title">Profil Developer</div>
+      <div class="dev-profile-wrap">
+        <div class="dev-photo">👨‍💻</div>
+        <div class="dev-info">
+          <div class="dev-name">Dafa Syahrul Syah Baharudin</div>
+          <div class="dev-role">Mahasiswa PTIK 25</div>
+          <div class="dev-bio">Mahasiswa angkatan 2025 dengan NIM K3525053 Kelas B, prodi Pendidikan Teknik Informatika dan Komputer, Universitas Sebelas Maret.</div>
+        </div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk">
+      <div class="blk-title">Hubungi Developer</div>
+      <div class="dev-contact-grid">
+        <div class="contact-item"><div class="contact-ico">📧</div><div><div class="contact-label">Email</div><div class="contact-val">dafasyahrul10@student.uns.ac.id</div></div></div>
+        <div class="contact-item"><div class="contact-ico">📱</div><div><div class="contact-label">WhatsApp</div><div class="contact-val">+62 8570-0036-8975</div></div></div>
+        <div class="contact-item"><div class="contact-ico">📍</div><div><div class="contact-label">Lokasi</div><div class="contact-val">Karanganyar, Jawa Tengah</div></div></div>
+        <div class="contact-item"><div class="contact-ico">🎓</div><div><div class="contact-label">Pendidikan</div><div class="contact-val">Universitas Sebelas Maret</div></div></div>
+      </div>
+    </div>
+    <hr class="sec">
+    <div class="blk">
+      <div class="blk-title">Tentang Proyek Ini</div>
+      <div class="dev-project-card">
+        <h3>🕌 Website Pembelajaran PAI Terpadu</h3>
+        <p>Website ini dibuat untuk memenuhi tugas UAS mata kuliah Pendidikan Agama Islam. Website ini dikembangkan sebagai platform pembelajaran Pendidikan Agama Islam yang komprehensif dan interaktif. Dirancang untuk memudahkan siswa, guru, dan masyarakat umum dalam mengakses materi PAI secara digital kapanpun dan dimanapun.</p>
+      </div>
+    </div>
+    <div class="hbox gold"><div class="hbox-ico">🤲</div><div class="hbox-txt"><h4>Doa &amp; Harapan</h4><p>"Semoga website ini menjadi amal jariyah yang terus mengalir manfaatnya. Jika ada kesalahan dalam penyajian materi, mohon maaf dan dimaklumi. Kritik dan saran sangat kami harapkan untuk pengembangan lebih lanjut." — Developer</p></div></div>
+  </div>
+</div>
+
+</div><!-- end #main -->
+
+<script src="script.js"></script>
+</body>
+</html>
